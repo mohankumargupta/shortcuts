@@ -1,4 +1,5 @@
-*.exe
-*.pdb
 .build
-
+*.exe
+*.ttf
+*.wav
+*.pdb
