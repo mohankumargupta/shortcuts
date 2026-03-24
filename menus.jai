@@ -17,7 +17,7 @@ vscode_shortcuts :: Shortcut_Entry.[
 
 micro_shortcuts :: Shortcut_Entry.[
     .{"CMD",    "Run command",            "Ctrl+B"          },
-    .{"CMDS",   "Quit",                   "Ctrl+Q"          },
+    .{"CMDS",   "Command palette",        "Ctrl+E"          },
     .{"FIND",   "Find",                   "Ctrl+F"          }, 
     .{"FIND",   "Find next",              "Ctrl+N"          }, 
     .{"FIND",   "Find previous",          "Ctrl+P"          }, 
@@ -27,7 +27,7 @@ micro_shortcuts :: Shortcut_Entry.[
     .{"GOTO",   "Goto start of line",     "Alt+A"		}, 
     .{"CMDS",   "Goto end of line",       "Alt+E"			}
 ];
-
+//TODO: When we add pagination, want to add Command palette commands, eg, help defaultkeys, replaceall "^\+" ""
 
 // --- MENU ACTIONS ---
 
