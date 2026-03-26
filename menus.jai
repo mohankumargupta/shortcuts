@@ -31,19 +31,6 @@ micro_shortcuts :: Shortcut_Entry.[
 
 // --- MENU ACTIONS ---
 
-action_show_vscode :: () { 
-    in_leaf_page       = true;
-    current_leaf_page = 0; 
-    current_leaf_title = "VS CODE";
-    current_leaf_data  = vscode_shortcuts; 
-}
-
-action_show_micro :: () { 
-    in_leaf_page       = true;
-    current_leaf_page = 0; 
-    current_leaf_title = "MICRO EDITOR";
-    current_leaf_data  = micro_shortcuts; 
-}
 
 action_dummy :: () { 
     print("Action Triggered: Placeholder Function\n"); 
@@ -73,16 +60,16 @@ go_to_submenu :: (submenu:[] Menu_Item) {
 // --- MENU DEFINITIONS ---
 
 options_menu :: Menu_Item.[
-    .{ name = "Keyboard Controls", type = .LEAF, action = action_dummy },
-    .{ name = "Gamepad Controls",  type = .LEAF, action = action_dummy },
-    .{ name = "Music: On",         type = .LEAF, action = action_dummy },
-    .{ name = "Back",              type = .LEAF, action = menu_back }
+    .{ name = "Keyboard Controls", type = .ACTION, action = action_dummy },
+    .{ name = "Gamepad Controls",  type = .ACTION, action = action_dummy },
+    .{ name = "Music: On",         type = .ACTION, action = action_dummy },
+    .{ name = "Back",              type = .ACTION, action = menu_back }
 ];
 
 main_menu :: Menu_Item.[
-    .{ name = "VSCode",  type = .LEAF,    action = action_show_vscode },
-    .{ name = "micro",   type = .LEAF,    action = action_show_micro },
+    .{ name = "VSCode",  type = .PAGE,    shortcuts = vscode_shortcuts },
+    .{ name = "micro",   type = .PAGE,    shortcuts = micro_shortcuts },
     .{ name = "Options", type = .SUBMENU, submenu = options_menu },
-    .{ name = "Quit",    type = .LEAF,    action = action_quit }
+    .{ name = "Quit",    type = .ACTION,    action = action_quit }
 ];
 

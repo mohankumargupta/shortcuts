@@ -180,9 +180,15 @@ main :: () {
                 
                 if item.type == .SUBMENU {
                     go_to_submenu(item.submenu);
-                } else if item.type == .LEAF {
+                } else if item.type == .ACTION {
                     if item.action then item.action();
-                }
+                } else if item.type == .PAGE {
+                    // Generic data-driven page routing!
+                    in_leaf_page       = true;
+                    current_leaf_page  = 0;
+                    current_leaf_title = item.name;       // Uses the string from the Menu_Item
+                    current_leaf_data  = item.shortcuts;  // Feeds the array to the drawing function
+                }            
             }
         }
 
