@@ -50,6 +50,9 @@ selected_menu_index : int = 0;
 last_mouse_x        : int;
 last_mouse_y        : int;
 
+ITEMS_PER_PAGE      :: 10; 
+current_leaf_page   : int = 0;
+
 main :: () {
     // 1. App Startup
     current_menu = main_menu;
@@ -115,9 +118,19 @@ main :: () {
         if in_leaf_page {
             for event: Input.events_this_frame {
                 if event.type == .QUIT then global_quit = true;
-                if event.type == .KEYBOARD && event.key_pressed && (event.key_code == .ESCAPE || event.key_code == .BACKSPACE) {
-                    in_leaf_page = false; // Go back to the menu!
+                if event.type == .KEYBOARD && event.key_pressed  {
+                    if event.key_code == .ESCAPE || event.key_code == .BACKSPACE {
+                       in_leaf_page = false; // Go back to the menu!
+                    } else if event.key_code == .ARROW_LEFT || event.key_code == .ARROW_UP {
+                       // Previous Page
+                       if current_leaf_page > 0 then current_leaf_page -= 1;
+                    } else if event.key_code == .ARROW_RIGHT || event.key_code == .ARROW_DOWN {
+                       // Next Page
+                       max_pages := (current_leaf_data.count + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE;
+                       if current_leaf_page < max_pages - 1 then current_leaf_page += 1;
+                   } 
                 }
+                
                 getrect_handle_event(event);
             }
             

@@ -122,6 +122,140 @@ draw_shortcuts_page :: (program_name: string, shortcuts:[] Shortcut_Entry) {
     base_theme: Label_Theme;
     base_theme.font = arcade_font;
     
+    // --- Pagination Math ---
+    total_pages := (shortcuts.count + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE;
+    if total_pages == 0 then total_pages = 1;
+
+    start_idx := current_leaf_page * ITEMS_PER_PAGE;
+    end_idx   := start_idx + ITEMS_PER_PAGE;
+    if end_idx > shortcuts.count then end_idx = shortcuts.count;
+
+    // --- Draw Title ---
+    title_theme := base_theme;
+    title_theme.alignment = .Center;
+    title_theme.text_color = .{0.0, 1.0, 1.0, 1.0}; // Cyan
+    
+    title_text := tprint("% SHORTCUTS", program_name);
+    label(get_rect(0, 50, cast(float)window_width, 40), title_text, *title_theme);
+
+    // --- Layout Math for Columns ---
+    w_float := cast(float) window_width;
+    
+    col1_rect := get_rect(w_float * 0.15, 0, w_float * 0.20, 0); // Group
+    col2_rect := get_rect(w_float * 0.35, 0, w_float * 0.35, 0); // Action
+    col3_rect := get_rect(w_float * 0.70, 0, w_float * 0.15, 0); // Keys
+    
+    row_y := 140.0;
+    row_h := 40.0;
+
+    // --- Draw Headers ---
+    header_theme := base_theme;
+    header_theme.text_color = .{1.0, 1.0, 0.0, 1.0}; // Yellow
+    
+    header_theme.alignment = .Left;
+    col1_rect.y = row_y; col1_rect.h = row_h;
+    label(col1_rect, "GROUP", *header_theme);
+    
+    header_theme.alignment = .Left;
+    col2_rect.y = row_y; col2_rect.h = row_h;
+    label(col2_rect, "ACTION", *header_theme);
+    
+    header_theme.alignment = .Right;
+    col3_rect.y = row_y; col3_rect.h = row_h;
+    label(col3_rect, "KEYBINDING", *header_theme);
+
+    // --- Draw Shortcut Entries (Only for the Current Page) ---
+    row_y += 60.0; // Gap between header and first shortcut
+    entry_theme := base_theme;
+
+    for i: start_idx .. end_idx - 1 {
+        entry := shortcuts[i];
+        color_idx := i % SHORTCUT_COLORS.count;
+        
+        entry_theme.text_color = SHORTCUT_COLORS[color_idx];
+        
+        entry_theme.alignment = .Left;
+        col1_rect.y = row_y;
+        label(col1_rect, entry.group, *entry_theme);
+        
+        entry_theme.alignment = .Left;
+        col2_rect.y = row_y;
+        label(col2_rect, entry.action, *entry_theme);
+        
+        entry_theme.alignment = .Right;
+        col3_rect.y = row_y;
+        label(col3_rect, entry.keys, *entry_theme);
+        
+        row_y += row_h;
+    }
+
+    // --- Draw Pinky the Ghost ---
+    ghost_x := col3_rect.x + col3_rect.w - 36.0; 
+    draw_retro_ghost(ghost_x, row_y + 15.0);
+
+    // --- Draw Footer ---
+    footer_theme := base_theme;
+    footer_theme.alignment = .Left;
+    footer_theme.text_color = .{1.0, 1.0, 1.0, 1.0}; // White
+    label(get_rect(50, cast(float)(window_height - 60), 300, 40), "ESC TO RETURN", *footer_theme);
+
+    // --- Draw Pagination Controls ---
+    if total_pages > 1 {
+        // Page Indicator
+        page_text := tprint("PAGE %/%", current_leaf_page + 1, total_pages);
+        page_theme := base_theme;
+        page_theme.alignment = .Right;
+        page_theme.text_color = .{1.0, 1.0, 1.0, 1.0};
+        label(get_rect(cast(float)(window_width - 350), cast(float)(window_height - 60), 300, 40), page_text, *page_theme);
+
+        // Prev / Next Clickable Buttons
+        btn_theme := default_overall_theme.button_theme;
+        btn_theme.font = arcade_font;
+        btn_theme.label_theme.alignment = .Center;
+        // Transparent Backgrounds
+        btn_theme.surface_color       = .{0, 0, 0, 0};
+        btn_theme.surface_color_over  = .{0, 0, 0, 0};
+        btn_theme.surface_color_down  = .{0, 0, 0, 0};
+        btn_theme.surface_color_flash = .{0, 0, 0, 0};
+        btn_theme.frame_color         = .{0, 0, 0, 0};
+        btn_theme.frame_color_over    = .{0, 0, 0, 0};
+        btn_theme.frame_color_down    = .{0, 0, 0, 0};
+        btn_theme.frame_color_flash   = .{0, 0, 0, 0};
+
+        center_x := cast(float)(window_width) / 2.0;
+        btn_y := cast(float)(window_height - 60);
+
+        if current_leaf_page > 0 {
+            btn_theme.text_color = .{1.0, 1.0, 1.0, 1.0}; // Active white
+            btn_theme.text_color_over = .{1.0, 1.0, 0.0, 1.0}; // Yellow hover
+            if button(get_rect(center_x - 120, btn_y, 100, 40), "< PREV", *btn_theme) {
+                current_leaf_page -= 1;
+            }
+        }
+        
+        if current_leaf_page < total_pages - 1 {
+            btn_theme.text_color = .{1.0, 1.0, 1.0, 1.0}; // Active white
+            btn_theme.text_color_over = .{1.0, 1.0, 0.0, 1.0}; // Yellow hover
+            if button(get_rect(center_x + 20, btn_y, 100, 40), "NEXT >", *btn_theme) {
+                current_leaf_page += 1;
+            }
+        }
+    }
+
+    draw_popups();
+    Simp.swap_buffers(my_window);
+}
+
+
+/*
+draw_shortcuts_page :: (program_name: string, shortcuts:[] Shortcut_Entry) {
+    // Pure arcade black background
+    Simp.clear_render_target(0.0, 0.0, 0.0, 1.0);
+    ui_per_frame_update(my_window, window_width, window_height, current_time);
+
+    base_theme: Label_Theme;
+    base_theme.font = arcade_font;
+    
     // --- Draw Title ---
     title_theme := base_theme;
     title_theme.alignment = .Center;
@@ -214,6 +348,8 @@ draw_shortcuts_page :: (program_name: string, shortcuts:[] Shortcut_Entry) {
     draw_popups();
     Simp.swap_buffers(my_window);
 }
+*/
+
 
 draw_retro_ghost :: (x: float, y: float) {
     Simp.set_shader_for_color(true);

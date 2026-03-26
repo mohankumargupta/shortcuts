@@ -32,13 +32,15 @@ micro_shortcuts :: Shortcut_Entry.[
 // --- MENU ACTIONS ---
 
 action_show_vscode :: () { 
-    in_leaf_page       = true; 
+    in_leaf_page       = true;
+    current_leaf_page = 0; 
     current_leaf_title = "VS CODE";
     current_leaf_data  = vscode_shortcuts; 
 }
 
 action_show_micro :: () { 
-    in_leaf_page       = true; 
+    in_leaf_page       = true;
+    current_leaf_page = 0; 
     current_leaf_title = "MICRO EDITOR";
     current_leaf_data  = micro_shortcuts; 
 }
