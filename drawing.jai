@@ -170,18 +170,22 @@ draw_shortcuts_page :: (program_name: string, shortcuts:[] Shortcut_Entry) {
 
     for i: start_idx .. end_idx - 1 {
         entry := shortcuts[i];
-        color_idx := i % SHORTCUT_COLORS.count;
-        
-        entry_theme.text_color = SHORTCUT_COLORS[color_idx];
-        
+
+        // 1. Group Column -> Grey
+        entry_theme.text_color = .{0.6, 0.6, 0.6, 1.0}; // Grey
         entry_theme.alignment = .Left;
         col1_rect.y = row_y;
         label(col1_rect, entry.group, *entry_theme);
         
+        // 2. Action Column -> White
+        entry_theme.text_color = .{1.0, 1.0, 1.0, 1.0}; // White
         entry_theme.alignment = .Left;
         col2_rect.y = row_y;
         label(col2_rect, entry.action, *entry_theme);
         
+        // 3. Keybinding Column -> Color Palette
+        color_idx := i % SHORTCUT_COLORS.count;
+        entry_theme.text_color = SHORTCUT_COLORS[color_idx];
         entry_theme.alignment = .Right;
         col3_rect.y = row_y;
         label(col3_rect, entry.keys, *entry_theme);
