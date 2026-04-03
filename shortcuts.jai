@@ -26,7 +26,7 @@ FONT_DATA      :: #run embed_file("Karla-Regular.ttf");
 // ------------------------------------
 
 // --- GLOBAL APPLICATION STATE ---
-window_width  : s32 = 1280;
+window_width  : s32 = 1380;
 window_height : s32 = 720;
 my_window     : Window_Type;
 
