@@ -49,6 +49,19 @@ tmux_shortcuts :: Shortcut_Entry.[
     .{"COPY",    "Enter copy mode",     "Prefix + ["      				}
 ];
 
+freecad_shortcuts :: Shortcut_Entry.[
+    .{"VIEW",    "Reset View",    		"0vf" 		     				},
+
+];
+
+prusa_slicer_shortcuts :: Shortcut_Entry.[
+    .{"VIEW",    "Iso view",    		"0"			      				},
+    .{"VIEW",    "Top view",    		"1"      						},
+];
+
+
+
+
 
 // --- MENU ACTIONS ---
 
@@ -87,11 +100,18 @@ options_menu :: Menu_Item.[
     .{ name = "Back",              type = .ACTION, action = menu_back }
 ];
 
+
+
 main_menu :: Menu_Item.[
-    .{ name = "vscode",  type = .PAGE,    shortcuts = vscode_shortcuts },
-    .{ name = "micro",   type = .PAGE,    shortcuts = micro_shortcuts },
-    .{ name = "tmux",   type = .PAGE,    shortcuts = tmux_shortcuts },
-    .{ name = "Options", type = .SUBMENU, submenu = options_menu },
-    .{ name = "Quit",    type = .ACTION,    action = action_quit }
+    .{ name = "vscode",  		type = .PAGE,    shortcuts = vscode_shortcuts 	},
+    .{ name = "micro",   		type = .PAGE,    shortcuts = micro_shortcuts 	},
+    .{ name = "tmux",   		type = .PAGE,    shortcuts = tmux_shortcuts 	},
+    .{ name = "freecad",   		type = .PAGE,    shortcuts = freecad_shortcuts 	},
+    .{ name = "prusaslicer",   	type = .PAGE,    shortcuts = prusa_slicer_shortcuts 	},
+    .{ name = "Quit",    		type = .ACTION,    action = action_quit 		}
 ];
+
+// .{ name = "Options", type = .SUBMENU, submenu = options_menu },
+
+
 
