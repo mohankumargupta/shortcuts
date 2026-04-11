@@ -3,13 +3,9 @@
 // --- SHORTCUT DATA ---
 
 vscode_shortcuts :: Shortcut_Entry.[
-    .{"FILE",   "New Window",             "Ctrl+Shift+N"				},
-    .{"FILE",   "Save As",                "Ctrl+Shift+S"				}, 
-    .{"EDIT",   "Find in Files",          "Ctrl+Shift+F"				},
-    .{"EDIT",   "Replace",                "Ctrl+H"						},
     .{"VIEW",   "Command Palette",        "Ctrl+Shift+P"				},
     .{"VIEW",   "Toggle Terminal",        "Ctrl+`"						},
-    .{"CURSOR", "Add Multi-Cursor",       "Alt+Click"					},
+    .{"CURSOR", "Add Multi-Cursor",       "Ctrl+Alt+Up/Down"			},
     .{"CURSOR", "Move Line Up/Down",      "Alt+Up/Down"					},
     .{"DEBUG",  "Start Debugging",        "F5"							},
     .{"DEBUG",  "Step Over",              "F10"							},
@@ -59,7 +55,18 @@ prusa_slicer_shortcuts :: Shortcut_Entry.[
     .{"VIEW",    "Top view",    		"1"      						},
 ];
 
-
+tinkercad_shortcuts :: Shortcut_Entry.[
+    .{"BASIC",    "Drop to ground",    	"D"			      				},
+    .{"BASIC",    "Duplicate",    		"Ctrl+D"      					},	
+    .{"BASIC",    "Align",    		    "L"		      					},	
+    .{"BASIC",    "Group",    		    "Ctrl+G"		     			},	
+    .{"BASIC",    "Ungroup",    		"Ctrl+Shift+G"		     		},
+    .{"VIEW",     "Transparency",    	"T"					     		},
+    .{"SKETCH",   "Straight Line",    	"1"					     		},
+    .{"SKETCH",   "Curve",		    	"2"					     		},
+    .{"SKETCH",   "Break Handle",    	"3"					     		},
+    
+];
 
 
 
@@ -94,21 +101,22 @@ go_to_submenu :: (submenu:[] Menu_Item) {
 // --- MENU DEFINITIONS ---
 
 options_menu :: Menu_Item.[
-    .{ name = "Keyboard Controls", type = .ACTION, action = action_dummy },
-    .{ name = "Gamepad Controls",  type = .ACTION, action = action_dummy },
-    .{ name = "Music: On",         type = .ACTION, action = action_dummy },
-    .{ name = "Back",              type = .ACTION, action = menu_back }
+    .{ name = "Keyboard Controls",	type = .ACTION, action = action_dummy 					},
+    .{ name = "Gamepad Controls",	type = .ACTION, action = action_dummy 					},
+    .{ name = "Music: On",			type = .ACTION, action = action_dummy 					},
+    .{ name = "Back",              	type = .ACTION, action = menu_back 	  					},
 ];
 
 
 
 main_menu :: Menu_Item.[
-    .{ name = "vscode",  		type = .PAGE,    shortcuts = vscode_shortcuts 	},
-    .{ name = "micro",   		type = .PAGE,    shortcuts = micro_shortcuts 	},
-    .{ name = "tmux",   		type = .PAGE,    shortcuts = tmux_shortcuts 	},
-    .{ name = "freecad",   		type = .PAGE,    shortcuts = freecad_shortcuts 	},
-    .{ name = "prusaslicer",   	type = .PAGE,    shortcuts = prusa_slicer_shortcuts 	},
-    .{ name = "Quit",    		type = .ACTION,    action = action_quit 		}
+    .{ name = "vscode",  			type = .PAGE,    shortcuts = vscode_shortcuts 			},
+    .{ name = "micro",   			type = .PAGE,    shortcuts = micro_shortcuts 			},
+    .{ name = "tmux",   			type = .PAGE,    shortcuts = tmux_shortcuts 			},
+    .{ name = "tinkercad",   		type = .PAGE,    shortcuts = tinkercad_shortcuts 		},
+    .{ name = "freecad",   			type = .PAGE,    shortcuts = freecad_shortcuts 			},
+    .{ name = "prusaslicer",   		type = .PAGE,    shortcuts = prusa_slicer_shortcuts 	},
+    .{ name = "Quit",    			type = .ACTION,    action = action_quit 				},
 ];
 
 // .{ name = "Options", type = .SUBMENU, submenu = options_menu },
