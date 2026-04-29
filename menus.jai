@@ -30,7 +30,6 @@ micro_shortcuts :: Shortcut_Entry.[
     .{"CURSOR", "Multiple cursors",       "Alt+Shift+Down"	 		    },
      
 ];
-//TODO: When we add pagination, want to add Command palette commands, eg, help defaultkeys, replaceall "^\+" ""
 
 tmux_shortcuts :: Shortcut_Entry.[
     .{"PANE",    "Split horizontally",  "Prefix + \""     				},
@@ -62,6 +61,7 @@ tinkercad_shortcuts :: Shortcut_Entry.[
     .{"BASIC",    "Group",    		    "Ctrl+G"		     			},	
     .{"BASIC",    "Ungroup",    		"Ctrl+Shift+G"		     		},
     .{"VIEW",     "Transparency",    	"T"					     		},
+    .{"NAV",      "Panning",         	"Shift+RightCtrl+Move"			},
     .{"SKETCH",   "Straight Line",    	"1"					     		},
     .{"SKETCH",   "Curve",		    	"2"					     		},
     .{"SKETCH",   "Break Handle",    	"3"					     		},
