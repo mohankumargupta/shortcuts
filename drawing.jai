@@ -19,10 +19,25 @@ SHORTCUT_COLORS :: Vector4.[
 draw_menu_frame :: (dt: float, mouse_moved: bool) -> bool {
     action_triggered_by_mouse := false;
 
+    // Check if we are on the top-level main menu
+    is_main_menu := menu_stack.count == 0;
+
+    if is_main_menu {
+        // Main Menu: Use a placeholder clear, then draw the image texture
+        Simp.clear_render_target(0.12, 0.76, 0.76, 1.0);
+        Simp.set_shader_for_images(*background_texture);
+        Simp.immediate_quad(0, 0, cast(float) window_width, cast(float) window_height, .{1, 1, 1, 1});
+    } else {
+        // Submenus (Options, etc.): Use a solid black background
+        Simp.clear_render_target(0.0, 0.0, 0.0, 1.0);
+    }
+    
     // Teal/Cyan background
-    Simp.clear_render_target(0.12, 0.76, 0.76, 1.0);
-    Simp.set_shader_for_images(*background_texture);
-    Simp.immediate_quad(0, 0, cast(float) window_width, cast(float) window_height, .{1, 1, 1, 1});
+    // Simp.clear_render_target(0.12, 0.76, 0.76, 1.0);
+    // Simp.set_shader_for_images(*background_texture);
+    // Simp.immediate_quad(0, 0, cast(float) window_width, cast(float) window_height, .{1, 1, 1, 1});
+
+
     ui_per_frame_update(my_window, window_width, window_height, current_time);
 
     my_theme := default_overall_theme;
@@ -30,7 +45,7 @@ draw_menu_frame :: (dt: float, mouse_moved: bool) -> bool {
     // --- Title Label ---
     title_theme := my_theme.label_theme;
     title_theme.font = title_font; 
-    title_theme.text_color = .{1.0, 1.0, 1.0, 1.0}; 
+    title_theme.text_color =  ifx is_main_menu then Vector4.{0.0, 0.0, 0.0, 1.0} else Vector4.{1.0, 1.0, 1.0, 1.0};; 
 
     title_h := cast(float) window_height * 0.12;
     title_rect := get_rect(0, cast(float) window_height * 0.08, cast(float) window_width, title_h);
@@ -94,7 +109,7 @@ draw_menu_frame :: (dt: float, mouse_moved: bool) -> bool {
         if it_index == selected_menu_index {
             button_theme.text_color = color_yellow_gold;
         } else {
-            button_theme.text_color = color_black;
+            button_theme.text_color = ifx is_main_menu then color_black else color_salmon_pink;
         }
         
         pressed, state := button(r, it.name, *button_theme, identifier = it_index);
@@ -120,8 +135,7 @@ draw_menu_frame :: (dt: float, mouse_moved: bool) -> bool {
 draw_shortcuts_page :: (program_name: string, shortcuts:[] Shortcut_Entry) {
     // Pure arcade black background
     Simp.clear_render_target(0.0, 0.0, 0.0, 1.0);
-    Simp.set_shader_for_images(*background_texture);
-        Simp.immediate_quad(0, 0, cast(float) window_width, cast(float) window_height, .{1, 1, 1, 1});
+
     ui_per_frame_update(my_window, window_width, window_height, current_time);
 
     base_theme: Label_Theme;
