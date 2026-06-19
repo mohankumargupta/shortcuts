@@ -23,6 +23,7 @@ embed_file :: (filepath: string) -> string {
 // The compiler runs the function and bakes the returned bytes into the .exe
 CLICK_WAV_DATA :: #run embed_file("click.wav");
 FONT_DATA      :: #run embed_file("Karla-Regular.ttf");
+BACKGROUND_JPG_DATA :: #run embed_file("order.jpg");
 // ------------------------------------
 
 // --- GLOBAL APPLICATION STATE ---
@@ -36,6 +37,8 @@ last_time    : float64;
 arcade_font : *Simp.Dynamic_Font;
 title_font  : *Simp.Dynamic_Font;
 menu_font   : *Simp.Dynamic_Font;
+
+background_texture: Simp.Texture;
 
 // State properties shared with menus.jai and drawing.jai
 global_quit         := false;
@@ -75,11 +78,23 @@ main :: () {
     title_font  = Simp.get_font_at_size(font_bytes, 64);
     menu_font   = Simp.get_font_at_size(font_bytes, 42);
     arcade_font = Simp.get_font_at_size(font_bytes, 28);
+
     
     if !title_font || !menu_font || !arcade_font {
         print("Warning: Failed to load fonts from embedded data!\n");
     }
 
+    // Convert the string data into a byte array slice for SIMP
+    bg_bytes: [] u8;
+    bg_bytes.data = BACKGROUND_JPG_DATA.data;
+    bg_bytes.count = BACKGROUND_JPG_DATA.count;
+
+    // Load the JPG into your global texture handle
+    tex_success := Simp.texture_load_from_memory(*background_texture, bg_bytes);
+    if !tex_success {
+        print("Warning: Failed to parse and load background image texture data!\n");
+    }
+    
     // 3. Load Audio
     sound_success := Sound.sound_player_init(.{});
     if !sound_success print("Warning: Failed to initialize Sound_Player.\n");

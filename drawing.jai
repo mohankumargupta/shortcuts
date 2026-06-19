@@ -21,6 +21,8 @@ draw_menu_frame :: (dt: float, mouse_moved: bool) -> bool {
 
     // Teal/Cyan background
     Simp.clear_render_target(0.12, 0.76, 0.76, 1.0);
+    Simp.set_shader_for_images(*background_texture);
+    Simp.immediate_quad(0, 0, cast(float) window_width, cast(float) window_height, .{1, 1, 1, 1});
     ui_per_frame_update(my_window, window_width, window_height, current_time);
 
     my_theme := default_overall_theme;
@@ -117,6 +119,8 @@ draw_menu_frame :: (dt: float, mouse_moved: bool) -> bool {
 draw_shortcuts_page :: (program_name: string, shortcuts:[] Shortcut_Entry) {
     // Pure arcade black background
     Simp.clear_render_target(0.0, 0.0, 0.0, 1.0);
+    Simp.set_shader_for_images(*background_texture);
+        Simp.immediate_quad(0, 0, cast(float) window_width, cast(float) window_height, .{1, 1, 1, 1});
     ui_per_frame_update(my_window, window_width, window_height, current_time);
 
     base_theme: Label_Theme;
