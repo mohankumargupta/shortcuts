@@ -57,6 +57,7 @@ draw_menu_frame :: (dt: float, mouse_moved: bool) -> bool {
     color_salmon_pink := Vector4.{0.95, 0.45, 0.50, 1.0};
     color_yellow_gold := Vector4.{0.95, 0.85, 0.20, 1.0};
     color_bright_yell := Vector4.{1.00, 0.95, 0.30, 1.0};
+    color_black       := Vector4.{0.00, 0.00, 0.00, 1.0};
 
     button_theme.text_color_over    = color_bright_yell;
     button_theme.text_color_pressed = color_bright_yell;
@@ -93,7 +94,7 @@ draw_menu_frame :: (dt: float, mouse_moved: bool) -> bool {
         if it_index == selected_menu_index {
             button_theme.text_color = color_yellow_gold;
         } else {
-            button_theme.text_color = color_salmon_pink;
+            button_theme.text_color = color_black;
         }
         
         pressed, state := button(r, it.name, *button_theme, identifier = it_index);
