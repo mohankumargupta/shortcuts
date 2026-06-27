@@ -39,8 +39,18 @@ tmux_shortcuts :: Shortcut_Entry.[
     .{"WINDOW",  "List windows",        "Prefix + w"      				},
     .{"PANE",    "Switch pane",         "Prefix + Arrows" 				},
     .{"PANE",    "Toggle pane zoom",    "Prefix + z"      				},
-    .{"COPY",    "Enter copy mode",     "Prefix + ["      				}
+    .{"COPY",    "Enter copy mode",     "Prefix + ["      				},
+    .{"COPY",    "Start select",     	"Ctrl + Space"      			},
+    .{"COPY",    "End select",	     	"Alt + w"      					},
+    .{"COPY",    "Paste",	     		"Prefix + ]"      					},
+    
 ];
+
+emacs_shortcuts :: Shortcut_Entry.[
+	    .{"VIEW",    "Exit",    		"C-x C-c" 		     				},
+];
+	    
+
 
 freecad_shortcuts :: Shortcut_Entry.[
     .{"VIEW",    "Reset View",    		"0vf" 		     				},
@@ -154,7 +164,7 @@ options_menu :: Menu_Item.[
     append(*builder, "];\n");
 
     generated_code := builder_to_string(*builder);
-    print("\n--- GENERATED MAIN MENU ---\n%\n---------------------------\n", generated_code);
+    //print("\n--- GENERATED MAIN MENU ---\n%\n---------------------------\n", generated_code);
     
     return generated_code;
 };
